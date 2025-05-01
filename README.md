@@ -91,3 +91,53 @@ dotnet add myApp.Tests/myApp.Tests.csproj reference myApp/myApp.csproj
 - ."$DOTNET_TOOLS_PATH\reportgenerator.exe" -reports:reports\coverage.cobertura.xml -targetdir:reports\coveragereport -reporttypes:Html
 
  -->
+<!-- name: CI
+
+on:
+  push:
+    branches: ["elamCano_p1_dev"]
+  pull_request:
+    branches: ["elamCano_p1_dev"]
+  workflow_dispatch:
+
+jobs:
+  build-test-publish:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+        # Build
+      - name: Build the app
+        run: dotnet build --no-restore --configuration Release
+
+        # Test
+      - name: Run tests with coverage
+        run: dotnet test ./myApp.Tests/myApp.Tests.csproj --collect:"XPlat Code Coverage" --no-build --configuration Release -p:CollectCoverage=true -p:CoverletOutput=TestResults/coverage -p:CoverletOutputFormat=cobertura
+
+      - name: Find coverage report path
+        id: find_coverage
+        run: |
+          $path = Get-ChildItem -Path ./myApp.Tests/TestResults -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
+           echo "##[set-output name=coverage_path]$($path.FullName)"
+        shell: pwsh
+
+      - name: Install ReportGenerator
+        run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
+
+      - name: Generate coverage report
+        run: ./tools/reportgenerator.exe -reports:./myApp.Tests/reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
+
+        # Publish
+      - name: Publish app
+        run: dotnet publish ./myApp/myApp.csproj --configuration Release --output ./publish
+ -->
