@@ -31,6 +31,10 @@ jobs:
       - name: Run tests with coverage
         run: dotnet test ./myApp.Tests --collect:"XPlat Code Coverage"
 
+      - name: Validate code coverage
+        run: ./scripts/validatecoverage.ps1
+        shell: pwsh
+
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
