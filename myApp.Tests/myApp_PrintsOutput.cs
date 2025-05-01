@@ -27,11 +27,11 @@ namespace myApp.Tests
 
             try
             {
-              new BrokenProgram();
+              var program = new BrokenProgram();
             }
             catch
             {
-                // Exception esperada, ignoramos
+                Assert.Fail("The exception was not caught within Program");
             }
         }
     }
