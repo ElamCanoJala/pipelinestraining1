@@ -10,9 +10,9 @@ namespace myApp.Tests
         public void IsConsoleOutput_Printed()
         {
             
-            // Program _program = new Program();
-            // _program.say_hello();
-            // _program.say_bye();
+             Program _program = new Program();
+             _program.say_hello();
+             _program.say_bye();
          
             Program.Main();
            
