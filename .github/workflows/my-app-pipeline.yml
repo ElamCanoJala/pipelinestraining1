@@ -31,6 +31,13 @@ jobs:
       - name: Run tests with coverage
         run: dotnet test ./myApp.Tests/myApp.Tests.csproj --collect:"XPlat Code Coverage" --no-build --configuration Release -p:CollectCoverage=true -p:CoverletOutput=TestResults/coverage -p:CoverletOutputFormat=cobertura
 
+      - name: Find coverage report path
+        id: find_coverage
+        run: |
+          $path = Get-ChildItem -Path ./myApp.Tests/TestResults -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
+           echo "##[set-output name=coverage_path]$($path.FullName)"
+        shell: pwsh
+
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
