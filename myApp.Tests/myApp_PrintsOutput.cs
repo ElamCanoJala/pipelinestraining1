@@ -1,39 +1,40 @@
- using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using myApp;
 
 namespace myApp.Tests
-[TestClass]
-public class myApp_PrintsOutput
 {
-    class BrokenProgram : Program
+    [TestClass]
+    public class myApp_PrintsOutput
     {
-        protected override void say_hello()
+        class BrokenProgram : Program
         {
-            throw new Exception("Forcing failure in say_hello");
+            protected override void say_hello()
+            {
+                throw new Exception("Forcing failure in say_hello");
+            }
+
+            protected override void say_bye()
+            {
+                throw new Exception("Forcing failure in say_bye");
+            }
         }
 
-        protected override void say_bye()
+        [TestMethod]
+        public void IsConsoleOutput_Printed()
         {
-            throw new Exception("Forcing failure in say_bye");
-        }
-    }
+            Program.Main(); // test original
 
-    [TestMethod]
-    public void IsConsoleOutput_Printed()
-    {
-        Program.Main();
-
-        try
-        {
-            var broken = new BrokenProgram();
-        }
-        catch
-        {
-            // just ignore this
+            try
+            {
+                var broken = new BrokenProgram();
+            }
+            catch
+            {
+                // Exception esperada, ignoramos
+            }
         }
     }
 }
-
 
 
 
