@@ -31,15 +31,11 @@ jobs:
       - name: Run tests with coverage
         run: dotnet test ./myApp.Tests/myApp.Tests.csproj --collect:"XPlat Code Coverage" --no-build --configuration Release -p:CollectCoverage=true -p:CoverletOutput=TestResults/coverage -p:CoverletOutputFormat=cobertura
 
-      - name: Find coverage file
-        run: |
-          dir ./myApp.Tests/TestResults /s
-
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
       - name: Generate coverage report
-        run: ./tools/reportgenerator.exe -reports:./myApp.Tests/TestResults/coverage.cobertura.xml -targetdir:./myApp.Tests/TestResults/coveragereport -reporttypes:Html
+        run: ./tools/reportgenerator.exe -reports:./myApp.Tests/reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
 
         # Publish
       - name: Publish app
