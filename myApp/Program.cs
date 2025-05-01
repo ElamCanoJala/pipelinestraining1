@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 
 namespace myApp
 {
@@ -39,3 +39,18 @@ namespace myApp
 
     }
 }
+ 
+/*  using System;
+
+namespace myApp
+{
+    public class Program
+    {
+        public static void Main()
+        {
+            var messagePrinter = new MessagePrinter();
+            messagePrinter.PrintHello();
+            messagePrinter.PrintBye();
+        }
+    }
+} */

@@ -1,21 +1,27 @@
 # pipelinestraining1
 
 # -------------------------------------------------------------------
+
 # App Solution File structure
+
 # -------------------------------------------------------------------
-<!-- 
+
+<!--
 
 root
   myApp
   myApp.Tests
-  TrainProject.sln 
+  TrainProject.sln
 
 -->
 
 # -------------------------------------------------------------------
+
 # Commands to create the app "myApp" inside "TrainProject" Solution:
+
 # -------------------------------------------------------------------
-<!-- 
+
+<!--
 
 # Create a new folder and navigate into it
 mkdir myApp
@@ -36,9 +42,12 @@ dotnet add myApp package Figgle
  -->
 
 # -------------------------------------------------------------------
+
 # Commands to add unit tests for "myApp" app inside "TrainProject" Solution:
+
 # -------------------------------------------------------------------
-<!-- 
+
+<!--
 
 # From the root of your solution, create "myApp" test project
 dotnet new mstest -n myApp.Tests
@@ -49,15 +58,18 @@ dotnet add myApp.Tests/myApp.Tests.csproj reference myApp/myApp.csproj
  -->
 
 # -------------------------------------------------------------------
+
 # Commands to Install and Use Required tools and packages:
+
 # -------------------------------------------------------------------
-<!-- 
+
+<!--
 
 # Code inspection
 - cd myApp
 - mkdir reports
 - dotnet tool install JetBrains.ReSharper.GlobalTools --tool-path $DOTNET_TOOLS_PATH
-- ."$DOTNET_TOOLS_PATH\jb.exe" inspectcode ./TrainProject.sln -o=reports/report
+- ."$DOTNET_TOOLS_PATH\jb.exe" inspectcode ../TrainProject.sln -o=reports/report
 
 # Code inspection validation
 - cd "../scripts"
@@ -79,4 +91,3 @@ dotnet add myApp.Tests/myApp.Tests.csproj reference myApp/myApp.csproj
 - ."$DOTNET_TOOLS_PATH\reportgenerator.exe" -reports:reports\coverage.cobertura.xml -targetdir:reports\coveragereport -reporttypes:Html
 
  -->
- 

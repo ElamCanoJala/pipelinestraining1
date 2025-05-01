@@ -385,3 +385,11 @@ FodyWeavers.xsd
 .vscode/launch.json
 .vscode/tasks.json
 myApp.Tests/reports/**/*
+
+# Ignorar carpeta del Actions Runner
+/actions-runner/
+.runner/
+_work/
+# Ignore local .NET tools
+/tools/
+/tools/**
