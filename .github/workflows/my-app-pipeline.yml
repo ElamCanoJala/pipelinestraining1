@@ -65,7 +65,7 @@ jobs:
       - name: Set publish output path
         id: set_publish_path
         run: echo "path=${{ github.workspace }}\publish" >> $env:GITHUB_OUTPUT
-        shell: powershell
+        shell: pwsh
 
   deploy:
     name: Deploy on self-hosted runner
