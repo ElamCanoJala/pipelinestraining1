@@ -60,9 +60,12 @@ jobs:
         #Publish
       - name: Publish app
         id: publish
-        run: |
-          dotnet publish ./myApp -c Release -o ./publish
-          echo "path=$(Resolve-Path ./publish)" >> $env:GITHUB_OUTPUT
+        run: dotnet publish ./myApp -c Release -o ./publish
+
+      - name: Set publish output path
+        id: set_publish_path
+        run: echo "path=${{ github.workspace }}\publish" >> $env:GITHUB_OUTPUT
+        shell: powershell
 
   deploy:
     name: Deploy on self-hosted runner
