@@ -38,7 +38,7 @@ jobs:
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
       - name: Generate coverage report
-        run: ./tools/reportgenerator.exe -reports:./reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
+        run: ./tools/reportgenerator.exe -reports:./myApp.Tests/reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
 
       - name: Validate coverage (PowerShell)
         run: ./scripts/validate_coverage.ps1
