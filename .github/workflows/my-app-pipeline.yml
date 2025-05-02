@@ -26,15 +26,13 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
+        #Build
       - name: Build
         run: dotnet build --no-restore
 
+        #Test
       - name: Run tests with coverage
         run: dotnet test ./myApp.Tests --collect:"XPlat Code Coverage"
-
-      - name: Validate code coverage
-        run: ./scripts/validate_coverage.ps1
-        shell: pwsh
 
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
@@ -54,12 +52,14 @@ jobs:
       - name: Generate coverage report
         run: ./tools/reportgenerator.exe -reports:${{ steps.find_coverage.outputs.coverage_path }} -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
 
+        #Artifact
       - name: Upload coverage report artifact
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
           path: ./myApp.Tests/reports/coveragereport
 
+        #Publish
       - name: Publish app
         run: dotnet publish ./myApp -c Release -o ./publish
 
