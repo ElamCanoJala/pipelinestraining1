@@ -37,20 +37,8 @@ jobs:
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
-      - name: Find coverage report path
-        id: find_coverage
-        shell: pwsh
-        run: |
-          $file = Get-ChildItem -Path ./myApp.Tests/reports -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
-          if ($file -eq $null) {
-            Write-Error "No coverage file found"
-            exit 1
-          }
-          echo "Found: $($file.FullName)"
-          echo "coverage_path=$($file.FullName)" >> $env:GITHUB_OUTPUT
-
       - name: Generate coverage report
-        run: ./tools/reportgenerator.exe -reports:${{ steps.find_coverage.outputs.coverage_path }} -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
+        run: ./tools/reportgenerator.exe -reports:./reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
 
       - name: Validate coverage (PowerShell)
         run: ./scripts/validate_coverage.ps1
