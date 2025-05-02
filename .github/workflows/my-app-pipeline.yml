@@ -34,10 +34,6 @@ jobs:
       - name: Run tests with coverage
         run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura -p:CoverletOutput=reports/coverage
 
-      - name: Validate coverage (PowerShell)
-        run: ./scripts/validate_coverage.ps1
-        shell: powershell
-
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
@@ -55,6 +51,10 @@ jobs:
 
       - name: Generate coverage report
         run: ./tools/reportgenerator.exe -reports:${{ steps.find_coverage.outputs.coverage_path }} -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
+
+      - name: Validate coverage (PowerShell)
+        run: ./scripts/validate_coverage.ps1
+        shell: powershell
 
         #Artifact
       - name: Upload coverage report artifact
