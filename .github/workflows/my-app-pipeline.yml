@@ -32,7 +32,7 @@ jobs:
 
         #Test
       - name: Run tests with coverage
-        run: dotnet test -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura -p:CoverletOutput=reports/coverage
+        run: dotnet test ./myApp.Tests/myApp.Tests.csproj -p:CollectCoverage=true -p:CoverletOutputFormat=cobertura -p:CoverletOutput=./reports/coverage
 
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
