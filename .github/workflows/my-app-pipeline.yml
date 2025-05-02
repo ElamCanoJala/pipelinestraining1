@@ -45,20 +45,21 @@ jobs:
           echo "Found: $($file.FullName)"
           echo "##[set-output name=coverage_path]$($file.FullName)"
 
-      # Validate code coverage
-      - name: Validate code coverage
-        run: ./scripts/validate_coverage.ps1
-        shell: pwsh
-        env:
-          COVERAGE_PATH: ${{ steps.find_coverage.outputs.coverage_path }}
-
       # Install ReportGenerator
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
       # Generate coverage report
       - name: Generate coverage report
-        run: ./tools/reportgenerator.exe -reports:${{ steps.find_coverage.outputs.coverage_path }} -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
+        run:
+          ./tools/reportgenerator.exe -reports:${{ steps.find_coverage.outputs.coverage_path }} -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
+
+          # Validate code coverage
+      - name: Validate code coverage
+        run: ./scripts/validate_coverage.ps1
+        shell: pwsh
+        env:
+          COVERAGE_PATH: ${{ steps.find_coverage.outputs.coverage_path }}
 
       # Generate artifact
       - name: Upload coverage report artifact
