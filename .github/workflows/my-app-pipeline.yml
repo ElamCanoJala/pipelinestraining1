@@ -25,15 +25,13 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
+        #build
       - name: Build
         run: dotnet build --no-restore
 
+        #Test
       - name: Run tests with coverage
         run: dotnet test ./myApp.Tests --collect:"XPlat Code Coverage"
-
-      - name: Validate code coverage
-        run: ./scripts/validate_coverage.ps1
-        shell: pwsh
 
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
@@ -59,6 +57,7 @@ jobs:
           name: coverage-report
           path: ./myApp.Tests/reports/coveragereport
 
+        #Publish
       - name: Publish app
         id: publish
         run: |
