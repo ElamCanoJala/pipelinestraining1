@@ -1,4 +1,4 @@
-$xmlFilePath = "..\myApp.Tests\reports\coverage.cobertura.xml"
+$xmlFilePath = "..\pipelinestraining1\myApp.Tests\reports\coverage.cobertura.xml"
 
 # Read the XML file content
 $xmlContent = Get-Content -Path $xmlFilePath -Raw
@@ -10,7 +10,7 @@ $xmlContent = Get-Content -Path $xmlFilePath -Raw
 
 [int32]$rate = $linerate * 100 
 
-If($lineRate -lt 0.7){
+If($lineRate -lt 0.8){
     Throw "Lines rate coverage is less than $rate%"
 }else{
     Write-Host "Lines rate coverage is $rate%"

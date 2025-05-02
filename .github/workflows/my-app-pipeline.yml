@@ -61,5 +61,6 @@ jobs:
           echo "path=${{ github.workspace }}\publish" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
+        #Deploy
       - name: Run
         run: ./myApp/bin/Debug/NETCOREAPP8/myApp
