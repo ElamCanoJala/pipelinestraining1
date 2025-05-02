@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["elamCano_p1_dev"]
+    branches: ["elamCano_p1_base"]
   pull_request:
-    branches: ["elamCano_p1_dev"]
+    branches: ["elamCano_p1_base"]
   workflow_dispatch:
 
 jobs:
@@ -40,7 +40,7 @@ jobs:
       - name: Generate coverage report
         run: ./tools/reportgenerator.exe -reports:./myApp.Tests/reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
 
-      - name: Validate coverage (PowerShell)
+      - name: Validate coverage
         run: ./scripts/validate_coverage.ps1
         shell: powershell
 
