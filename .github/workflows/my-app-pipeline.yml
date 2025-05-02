@@ -69,26 +69,5 @@ jobs:
           echo "path=${{ github.workspace }}\publish" >> $env:GITHUB_OUTPUT
         shell: pwsh
 
-  deploy:
-    name: Deploy on self-hosted runner
-    needs: build-test-publish
-    runs-on: self-hosted
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Copy published app to deployment folder
-        run: |
-          $source = "${{ needs.build-test-publish.outputs.publish-path }}"
-          $destination = "C:\Desktop\Programing\Jala Bootcamp\repos\pipelinestraining1\actions-runner\app"
-          if (Test-Path $destination) {
-            Remove-Item -Recurse -Force $destination
-          }
-          Copy-Item -Recurse -Force $source $destination
-        shell: pwsh
-
-      - name: Restart app service (si aplica)
-        run: |
-          Restart-Service -Name "MyAppService"
-        shell: pwsh
+      - name: Run
+        run: ./myApp/bin/Debug/NETCOREAPP8/myApp
