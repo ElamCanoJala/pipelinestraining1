@@ -10,8 +10,9 @@ on:
 jobs:
   build-test-publish:
     runs-on: windows-latest
+
     outputs:
-      publish-path: ${{ steps.publish.outputs.path }}
+      publish-path: ${{ steps.set_publish_path.outputs.path }}
 
     steps:
       - name: Checkout repository
@@ -25,13 +26,15 @@ jobs:
       - name: Restore dependencies
         run: dotnet restore
 
-        #build
       - name: Build
         run: dotnet build --no-restore
 
-        #Test
       - name: Run tests with coverage
         run: dotnet test ./myApp.Tests --collect:"XPlat Code Coverage"
+
+      - name: Validate code coverage
+        run: ./scripts/validate_coverage.ps1
+        shell: pwsh
 
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
@@ -57,15 +60,14 @@ jobs:
           name: coverage-report
           path: ./myApp.Tests/reports/coveragereport
 
-        #Publish
       - name: Publish app
-        id: publish
         run: dotnet publish ./myApp -c Release -o ./publish
 
       - name: Set publish output path
         id: set_publish_path
-        run: echo "path=${{ github.workspace }}\publish" >> $env:GITHUB_ENV
-        shell: powershell
+        run: |
+          echo "path=${{ github.workspace }}\publish" >> $env:GITHUB_OUTPUT
+        shell: pwsh
 
   deploy:
     name: Deploy on self-hosted runner
@@ -79,7 +81,7 @@ jobs:
       - name: Copy published app to deployment folder
         run: |
           $source = "${{ needs.build-test-publish.outputs.publish-path }}"
-          $destination = "C:\Desktop\Programing\Jala Bootcamp\repos\pipelinestraining1\actions-runner"
+          $destination = "C:\Desktop\Programing\Jala Bootcamp\repos\pipelinestraining1\actions-runner\app"
           if (Test-Path $destination) {
             Remove-Item -Recurse -Force $destination
           }
