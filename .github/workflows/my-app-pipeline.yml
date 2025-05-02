@@ -86,9 +86,9 @@ jobs:
             Remove-Item -Recurse -Force $destination
           }
           Copy-Item -Recurse -Force $source $destination
-        shell: powershell
+        shell: pwsh
 
       - name: Restart app service (si aplica)
         run: |
           Restart-Service -Name "MyAppService"
-        shell: powershell
+        shell: pwsh
