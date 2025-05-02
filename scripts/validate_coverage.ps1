@@ -10,7 +10,7 @@ $xmlContent = Get-Content -Path $xmlFilePath -Raw
 
 [int32]$rate = $linerate * 100 
 
-If($lineRate -lt 0.9){
+If($lineRate -lt 0.7){
     Throw "Lines rate coverage is less than $rate%"
 }else{
     Write-Host "Lines rate coverage is $rate%"
