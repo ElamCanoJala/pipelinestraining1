@@ -41,7 +41,7 @@ jobs:
         id: find_coverage
         shell: pwsh
         run: |
-          $file = Get-ChildItem -Path ./myApp.Tests/TestResults -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
+          $file = Get-ChildItem -Path ./myApp.Tests/reports -Recurse -Filter "coverage.cobertura.xml" | Select-Object -First 1
           if ($file -eq $null) {
             Write-Error "No coverage file found"
             exit 1
