@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-test-publish:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     outputs:
       publish-path: ${{ steps.set_publish_path.outputs.path }}
@@ -41,7 +41,7 @@ jobs:
         run: ./tools/reportgenerator.exe -reports:./myApp.Tests/reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
 
       - name: Validate coverage
-        run: ./scripts/validate_coverage.ps1
+        run: ./scripts/validate_coverage.sh
         shell: powershell
 
         #Artifact
@@ -57,13 +57,11 @@ jobs:
 
       - name: Set publish output path
         id: set_publish_path
-        run: |
-          echo "path=${{ github.workspace }}\publish" >> $env:GITHUB_OUTPUT
-        shell: pwsh
+        run: echo "path=${{ github.workspace }}/publish" >> $GITHUB_OUTPUT
 
         #Deploy
       - name: Run
-        run: ./myApp/bin/Debug/NETCOREAPP8/myApp
+        run: ./myApp/bin/Debug/net8.0/myApp
 
         #Build Docker image
       - name: Build Docker image

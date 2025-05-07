@@ -2,7 +2,7 @@
 
 echo "Check Coverage"
 
-COVERAGE_REPORT_PATH="./reports/coverage.cobertura.xml"
+COVERAGE_REPORT_PATH="./myApp.Tests/reports/coverage.cobertura.xml"
 
 RATE_REGEX='[0-1]\d*(\.\d+)?'
 
