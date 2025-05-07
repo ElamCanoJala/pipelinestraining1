@@ -65,7 +65,7 @@ jobs:
 
         #Deploy
       - name: Run
-        run: ./myApp/bin/Debug/net8.0/myApp
+        run: ./publish/myApp
 
         #Build Docker image
       - name: Build Docker image
