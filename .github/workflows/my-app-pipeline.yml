@@ -37,6 +37,10 @@ jobs:
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
+        #Coverage permission
+      - name: Grant execute permission to validate_coverage.sh
+        run: chmod +x ./scripts/validate_coverage.sh
+
       - name: Generate coverage report
         run: ./tools/reportgenerator -reports:./myApp.Tests/reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
 
