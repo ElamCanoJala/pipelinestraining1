@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["elamCano_p1_base"]
+    branches: ["elamCano_p1_dev"]
   pull_request:
-    branches: ["elamCano_p1_base"]
+    branches: ["elamCano_p1_dev"]
   workflow_dispatch:
 
 jobs:
@@ -64,3 +64,11 @@ jobs:
         #Deploy
       - name: Run
         run: ./myApp/bin/Debug/NETCOREAPP8/myApp
+
+        #Build Docker image
+      - name: Build Docker image
+        run: docker build -t myapp-image .
+
+        #Run docker container
+      - name: Run Docker container
+        run: docker run --rm myapp-image
