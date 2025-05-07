@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-test-publish:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     outputs:
       publish-path: ${{ steps.set_publish_path.outputs.path }}
@@ -37,12 +37,16 @@ jobs:
       - name: Install ReportGenerator
         run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path tools
 
+        #Coverage permission
+      - name: Grant execute permission to validate_coverage.sh
+        run: chmod +x ./scripts/validate_coverage.sh
+
       - name: Generate coverage report
-        run: ./tools/reportgenerator.exe -reports:./myApp.Tests/reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
+        run: ./tools/reportgenerator -reports:./myApp.Tests/reports/coverage.cobertura.xml -targetdir:./myApp.Tests/reports/coveragereport -reporttypes:Html
 
       - name: Validate coverage
-        run: ./scripts/validate_coverage.ps1
-        shell: powershell
+        run: ./scripts/validate_coverage.sh
+        shell: bash
 
         #Artifact
       - name: Upload coverage report artifact
@@ -57,10 +61,16 @@ jobs:
 
       - name: Set publish output path
         id: set_publish_path
-        run: |
-          echo "path=${{ github.workspace }}\publish" >> $env:GITHUB_OUTPUT
-        shell: pwsh
+        run: echo "path=${{ github.workspace }}/publish" >> $GITHUB_OUTPUT
 
         #Deploy
       - name: Run
-        run: ./myApp/bin/Debug/NETCOREAPP8/myApp
+        run: ./publish/myApp
+
+        #Build Docker image
+      - name: Build Docker image
+        run: docker build -t myapp-image .
+
+        #Run docker container
+      - name: Run Docker container
+        run: docker run --rm myapp-image
