@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: ["elamCano_p1_base"]
+    branches: ["elamCano_p1_dev"]
   pull_request:
-    branches: ["elamCano_p1_base"]
+    branches: ["elamCano_p1_dev"]
   workflow_dispatch:
 
 jobs:
